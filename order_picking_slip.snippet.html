@@ -1,0 +1,105 @@
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+	<td colspan="2" style="padding-top:30px;padding-right:30px;padding-left:60px;">
+
+		<h2 style="color:#333 !important;font-weight:normal;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:60px;padding-bottom:5px;padding-right:0;padding-left:0;line-height:26px;font-size:24px;font-family:Helvetica, Arial, sans-serif;" >
+			Order #{{ order.reference }}
+		</h2>
+
+		<h3 style="color:#999 !important;font-weight:normal;margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:30px;padding-right:0;padding-left:0;line-height:20px;font-size:16px;font-family:Helvetica, Arial, sans-serif;" >
+			We have shipped your order!
+		</h3>
+		
+		{% unless order.instore_pickup %}
+		<p>
+			Deliver to:<br>
+			ATT: <strong>{{ order.first_name }} {{ order.last_name }}</strong><br>
+			{{ order.shipping_line1 }}<br>
+			{{ order.shipping_suburb }} {{ order.shipping_state }}<br>
+			{{ order.shipping_country_name }} {{ order.shipping_post_code }}<br>
+<br>
+
+		</p>
+		{% endunless %}
+		
+		{% if order.instore_pickup %}
+		<p>You arranged to pickup your order directly from our warehouse.</p>
+		{% endif %}
+		
+		<p>
+			Thankyou for your order. Any issues at all, get in touch!
+		</p>
+	</td>
+</tr>
+<tr>
+	<td valign="top" style="padding-top:0px;padding-bottom:0px;padding-right:60px;padding-left:60px;">
+
+
+<table class='table table-striped table-bordered' style='margin-top:1em;width:100%;'>
+  <tr>
+  	<th style="text-align:left;">Quantity</th>
+    <th style="text-align:left;">Item</th>
+    <th style="text-align:left;">Description</th>
+    <th style='text-align:right;'>Amount</th>
+  </tr>
+
+  {% for li in order.line_items %} 
+  <tr>
+    <td style="text-align:left;font-size:9pt;padding-top:10px;color:#777777;">{{ li.quantity }}</td>
+    <td style="text-align:left;font-size:9pt;padding-top:10px;color:#777777;">{{li.sku}} - {{ li.variant.name_a }}:{{ li.variant.name_b }}</td>
+    <td style="text-align:left;font-size:9pt;padding-top:10px;color:#777777;">&nbsp;{{ li.variant.item.name }}</td>
+    <td style="text-align:right;font-size:9pt;padding-top:10px;color:#777777;" align="right">&nbsp;{{ li.total | currency_clean }}</td>
+  </tr>
+  {% endfor %}
+
+  <tr>
+    <td colspan='4'>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan='3' style='text-align:right;'>
+      <strong>Sub-total</strong>
+    </td>
+    <td style='text-align:right;'>
+      {{ order.total | currency_clean }}
+    </td>
+  </tr>
+<tr>
+  <td colspan='3' style='text-align:right;'>
+    <strong>Freight</strong>
+  </td>
+  <td style='text-align:right;'>
+    {{ order.shipping_and_handling | currency_clean }}
+  </td>
+</tr>
+<tr>
+  <td colspan='3' style='text-align:right;'>
+    <strong>Discount</strong>
+  </td>
+  <td style='text-align:right;'>
+    {{ order.discount | currency_clean }}
+  </td>
+</tr>
+
+  <tr>
+    <td colspan='3' style='text-align:right;'>
+      <strong>Tax</strong>
+    </td>
+    <td style='text-align:right;'>
+      {{ order.tax_total | currency_clean }}
+    </td>
+  </tr>
+  <tr>
+    <td colspan='3' style='text-align:right;'>
+      <h2>Total</h2>
+    </td>
+    <td style='text-align:right;'>
+      <h2>
+        {{ order.grand_total | currency_clean }}
+      </h2>
+    </td>
+  </tr>
+</table>	
+	
+	</td>
+</tr>
+</table>
